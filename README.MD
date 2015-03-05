@@ -1,0 +1,1 @@
+Phoca Download Search Plugin is Joomla! CMS extension. Plugin which allows displaying search results of Phoca Download images in search component of Joomla!
