@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension group="search" method="upgrade" type="plugin" version="3">
+	<name>plg_search_phocadownload</name>
+	<creationDate>07/11/2014</creationDate>
+	<author>Jan Pavelka (www.phoca.cz)</author>
+	<authorEmail></authorEmail>
+	<authorUrl>www.phoca.cz</authorUrl>
+	<copyright>Jan Pavelka</copyright>
+	<license>GNU/GPL</license>
+	<version>3.0.6</version>
+	
+	<description>PLG_SEARCH_PHOCADOWNLOAD_DESCRIPTION</description>
+	
+	<files>
+		<filename plugin="phocadownload">phocadownload.php</filename>
+		<filename >index.html</filename>
+	</files>
+	
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_search_phocadownload.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_search_phocadownload.sys.ini</language>
+	</languages>
+	
+	<administration>
+		<languages>
+			<language tag="en-GB">language/en-GB/en-GB.plg_search_phocadownload.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.plg_search_phocadownload.sys.ini</language>
+		</languages>
+	</administration>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="search_limit" type="text" size="5" default="20" label="PLG_SEARCH_PHOCADOWNLOAD_SEARCH_LIMIT_LABEL" description="PLG_SEARCH_PHOCADOWNLOAD_SEARCH_LIMIT_DESC"/>
+				
+				<field name="link_refer" type="list" default="0" label="PLG_SEARCH_PHOCADOWNLOAD_SEARCH_LINK_LABEL" description="PLG_SEARCH_PHOCADOWNLOAD_SEARCH_LINK_DESC">
+		<option value="0">PLG_SEARCH_PHOCADOWNLOAD_SEARCH_CATEGORY_VIEW</option>
+		<option value="1">PLG_SEARCH_PHOCADOWNLOAD_SEARCH_FILE_VIEW</option>
+	</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
