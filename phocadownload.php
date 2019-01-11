@@ -70,7 +70,7 @@ class plgSearchPhocaDownload extends JPlugin
 		switch ($ordering)
 		{
 			case 'oldest':
-				$order = 'a.created ASC';
+				$order = 'a.date ASC';
 				break;
 
 			case 'popular':
@@ -82,7 +82,7 @@ class plgSearchPhocaDownload extends JPlugin
 				break;
 
 			case 'category':
-				$order = 'c.title ASC, a.title ASC';
+				$order = 'a.title ASC';
 				break;
 
 			case 'newest':
