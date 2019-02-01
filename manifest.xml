@@ -1,23 +1,22 @@
-<?xml version="1.0"?>					 
 <updates>
 	<update>
-		<name>Phoca Download Search Plugin</name>
-		<description>Phoca Download Search Plugin is a Joomla! plugin which allows you to search for files, categories or description of Phoca Download.</description>
-		<element>plg_search_phocadownload</element>
-		<folder>search</folder>				 
+		<name><![CDATA[ Phoca Download Search Plugin ]]></name>
+		<description><![CDATA[ Phoca Download Search Plugin is a Joomla! plugin which allows you to search for Phoca Download files or categories on your website. ]]></description>
+		<element>phocadownload</element>
+		<folder>search</folder>
 		<type>plugin</type>
-		<version>3.1.5</version>
-		<infourl title="Phoca Open Graph">http://www.phoca.cz/news</infourl>
+		<version>3.1.7</version>
+		<infourl title="Phoca Download Search Plugin 3.1.7">https://www.phoca.cz/</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaDownloadSearchPlugin/releases/download/3.1.5/plg_search_phocadownload_v3.1.5.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaDownloadSearchPlugin/releases/download/3.1.7/plg_search_phocadownload_v3.1.7.zip</downloadurl>
 		</downloads>
 		<tags>
 			<tag>stable</tag>
 		</tags>
-		<maintainer>Phoca.cz</maintainer>
-		<maintainerurl>http://www.phoca.cz/</maintainerurl>
+		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
+		<maintainerurl>https://www.phoca.cz/</maintainerurl>
 		<section>Updates</section>
-		<targetplatform name="joomla" version="3.*"/>
-		<client>site</client>
+		<targetplatform name="joomla" version="3.9"/>
+		<client>0</client>
 	</update>
 </updates>

@@ -1,0 +1,16 @@
+{
+	"author": "Jan Pavelka (www.phoca.cz)",
+	"authorUrl": "https://www.phoca.cz",
+	"copyright": "Jan Pavelka",
+	"license": "GNU/GPL",
+	"projectName": "PhocaDownloadSearchPlugin",
+	"extensionName": "Phoca Download Search Plugin",
+	"projectInitials" : "PD",				  
+	"description": "Phoca Download Search Plugin is a Joomla! plugin which allows you to search for Phoca Download files or categories on your website.",
+	"projectUrl": "https://www.phoca.cz/phoca-download-search-plugin",
+	"projectDocumentationUrl": "https://www.phoca.cz/documentation/category/66-phoca-download-search-plugin",
+	"projectDemo" : {
+		"Joomla! 1.5 Demo": "https://www.phoca.cz/demo/"
+	},
+	"projectColor": "#339933"
+}

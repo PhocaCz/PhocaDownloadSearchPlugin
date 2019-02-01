@@ -8,17 +8,9 @@
  */
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
-if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
+
 jimport( 'joomla.plugin.plugin' );
 
-if (!JComponentHelper::isEnabled('com_phocadownload', true)) {
-	return JError::raiseError(JText::_('Phoca Download Error'), JText::_('Phoca Download is not installed on your system'));
-}
-if (! class_exists('PhocaDownloadLoader')) {
-    require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_phocadownload'.DS.'libraries'.DS.'loader.php');
-}
-phocadownloadimport('phocadownload.path.route');
-phocadownloadimport('phocadownload.access.access');
 
 
 class plgSearchPhocaDownload extends JPlugin
@@ -29,7 +21,7 @@ class plgSearchPhocaDownload extends JPlugin
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
 	}
-	
+
 	function onContentSearchAreas() {
 		static $areas = array(
 			'phocadownload' => 'PLG_SEARCH_PHOCADOWNLOAD_PHOCADOWNLOAD'
@@ -40,15 +32,34 @@ class plgSearchPhocaDownload extends JPlugin
 
 
 	function onContentSearch( $text, $phrase = '', $ordering = '', $areas = null ) {
-	
+
+
+        // Include Phoca Download
+        if (!JComponentHelper::isEnabled('com_phocadownload', true)) {
+            echo '<div class="alert alert-danger">Phoca Download Error: Phoca Download component is not installed or not published on your system</div>';
+            return;
+        }
+
+        if (! class_exists('PhocaDownloadLoader')) {
+            require_once( JPATH_ADMINISTRATOR.'/components/com_phocadownload/libraries/loader.php');
+        }
+        phocadownloadimport('phocadownload.utils.settings');
+        phocadownloadimport('phocadownload.path.path');
+        phocadownloadimport('phocadownload.path.route');
+        phocadownloadimport('phocadownload.file.file');
+        phocadownloadimport('phocadownload.utils.utils');
+        phocadownloadimport('phocadownload.render.layout');
+        phocadownloadimport('phocadownload.ordering.ordering');
+        phocadownloadimport('phocadownload.access.access');
+
 		$db		= JFactory::getDbo();
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
-		
+
 		$component			= 'com_phocadownload';
 		$paramsC			= JComponentHelper::getParams($component) ;
-		
+
 		$display_access_category 		= $paramsC->get( 'display_access_category', 1 );
 		if (is_array( $areas )) {
 			if (!array_intersect( $areas, array_keys( $this->onContentSearchAreas() ) )) {
@@ -65,8 +76,8 @@ class plgSearchPhocaDownload extends JPlugin
 		}
 
 		$section = JText::_( 'PLG_SEARCH_PHOCADOWNLOAD_PHOCADOWNLOAD');
-		
-		
+
+
 		switch ($ordering)
 		{
 			case 'oldest':
@@ -89,12 +100,12 @@ class plgSearchPhocaDownload extends JPlugin
 			default:
 				$order = 'a.date DESC';
 		}
-		
+
 		// Date in Where
 		$jnow		= JFactory::getDate();
 		$now		= $jnow->toSql();
 		$nullDate	= $db->getNullDate();
-		
+
 		$wheres	= array();
 		switch ($phrase)
 		{
@@ -130,11 +141,11 @@ class plgSearchPhocaDownload extends JPlugin
 				$where	= '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
-		
+
 		$rows = array();
 		// - - - - - -
 		// Categories
-		// - - - - - -		
+		// - - - - - -
 		$query	= $db->getQuery(true);
 		$query->select('a.id, a.title AS title, a.alias, a.date AS created, a.access, a.accessuserid,'
 		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug,'
@@ -147,26 +158,26 @@ class plgSearchPhocaDownload extends JPlugin
 		$query->where('('.$where.')' . ' AND  a.published = 1 AND  a.access IN ('.$groups.')');
 		$query->group('a.id');
 		$query->order($order);
-			
+
 		// Filter by language
-		if ($app->isSite() && $app->getLanguageFilter()) {
+		if ($app->isClient('site') && $app->getLanguageFilter()) {
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 			//$query->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 		}
-		
+
 		$db->setQuery( $query, 0, $limit );
 		$listCategories = $db->loadObjectList();
 		$limit -= count($listCategories);
-		
-	
+
+
 
 		if(isset($listCategories)) {
 			foreach($listCategories as $key => $value) {
-				
-				// USER RIGHT - ACCESS - - - - - - - - - - - 
+
+				// USER RIGHT - ACCESS - - - - - - - - - - -
 				$rightDisplay = 1;//default is set to 1 (all users can see the category)
-		
+
 				if (!empty($value)) {
 					$rightDisplay = PhocaDownloadAccess::getUserRight('accessuserid', $value->accessuserid, $value->access, $user->getAuthorisedViewLevels(), $user->get('id', 0), $display_access_category);
 				}
@@ -174,8 +185,8 @@ class plgSearchPhocaDownload extends JPlugin
 					unset($listCategories[$key]);
 				} else {
 					$listCategories[$key]->href = $link = JRoute::_(PhocaDownloadRoute::getCategoryRoute($value->id, $value->alias));
-				}	
-				// - - - - - - - - - - - - - - - - - - - - - 
+				}
+				// - - - - - - - - - - - - - - - - - - - - -
 			}
 		}
 		$rows[] = $listCategories;
@@ -194,7 +205,7 @@ class plgSearchPhocaDownload extends JPlugin
 				$wheres2[]	= 'a.metakey LIKE '.$text;
 				$wheres2[]	= 'a.metadesc LIKE '.$text;
 				$wheres2[]	= 'a.description LIKE '.$text;
-				
+
 				$wheres3[]	= '(' . implode(') OR (', $wheres2) . ')';
 				break;
 
@@ -213,25 +224,25 @@ class plgSearchPhocaDownload extends JPlugin
 					$wheres2[]	= 'a.metakey LIKE '.$word;
 					$wheres2[]	= 'a.metadesc LIKE '.$word;
 					$wheres2[]	= 'a.description LIKE '.$word;
-					
+
 					$wheres[]	= implode(' OR ', $wheres2);
 				}
 				$wheres3[]	= '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
-		
+
 		$wheres3[] = '( (unaccessible_file = 1 ) OR (unaccessible_file = 0 AND a.access IN ('.$groups.') ) )';
 		$wheres3[] = '( (unaccessible_file = 1 ) OR (unaccessible_file = 0 AND c.access IN ('.$groups.') ) )';
 		$wheres3[] 	= ' ( a.publish_up = '.$db->quote($nullDate).' OR a.publish_up <= '.$db->quote($now).' )';
 		$wheres3[] 	= ' ( a.publish_down = '.$db->quote($nullDate).' OR a.publish_down >= '.$db->quote($now).' )';
-		
+
 		$where = implode(' AND ', $wheres3);
-		
-		if ( $limit > 0 ) {			
-			
+
+		if ( $limit > 0 ) {
+
 			// - - - - - -
 			// Files
-			// - - - - - -		
+			// - - - - - -
 			$query	= $db->getQuery(true);
 			$query->select(' CASE WHEN CHAR_LENGTH(a.title) THEN CONCAT_WS(\': \', c.title, a.title)
 		ELSE c.title END AS title, '
@@ -248,9 +259,9 @@ class plgSearchPhocaDownload extends JPlugin
 			$query->where('('.$where.')' . ' AND  a.published = 1 AND a.approved = 1 AND c.published = 1 AND  c.access IN ('.$groups.')');
 			//$query->group('a.id');
 			$query->order($order);
-				
+
 			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter()) {
+			if ($app->isClient('site') && $app->getLanguageFilter()) {
 				$tag = JFactory::getLanguage()->getTag();
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 				$query->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
@@ -258,13 +269,13 @@ class plgSearchPhocaDownload extends JPlugin
 
 			$db->setQuery( $query, 0, $limit );
 			$listFiles = $db->loadObjectList();
-			
+
 
 			if(isset($listFiles)) {
 				foreach($listFiles as $key => $value) {
-					// USER RIGHT - ACCESS - - - - - - - - - - - 
+					// USER RIGHT - ACCESS - - - - - - - - - - -
 					$rightDisplay = 1;//default is set to 1 (all users can see the category)
-			
+
 					if (!empty($value)) {
 						$rightDisplay = PhocaDownloadAccess::getUserRight('accessuserid', $value->accessuserid, $value->cataccess, $user->getAuthorisedViewLevels(), $user->get('id', 0), $display_access_category);
 					}
@@ -276,21 +287,21 @@ class plgSearchPhocaDownload extends JPlugin
 						} else {
 							$listFiles[$key]->href = JRoute::_(PhocaDownloadRoute::getCategoryRoute($value->catid, $value->catalias));
 						}
-						
-					} 	
+
+					}
 					// - - - - - - - - - - - - - - - - - - - - -
 				}
 			}
 			$rows[] = $listFiles;
 		}
-		
+
 		$results = array();
 		if(count($rows)) {
 			foreach($rows as $row) {
 				$results = array_merge($results, (array) $row);
 			}
 		}
-		
+
 		return $results;
 	}
 }

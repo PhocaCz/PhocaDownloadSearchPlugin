@@ -1,1 +1,63 @@
-Phoca Download Search Plugin is Joomla! CMS extension. Plugin which allows displaying search results of Phoca Download images in search component of Joomla!
+
+
+
+
+![Phoca Download Search Plugin](https://github.com/PhocaCz/PhocaDownloadSearchPlugin/blob/master/phocadownload.png)
+
+# Phoca Download Search Plugin
+
+
+
+Phoca Download Search Plugin is a Joomla! plugin which allows you to search for Phoca Download files or categories on your website.
+
+
+
+## Project page
+
+[Phoca Download Search Plugin](https://www.phoca.cz/phoca-download-search-plugin)
+
+
+
+## Documentation
+
+[Documentation](https://www.phoca.cz/documentation/category/66-phoca-download-search-plugin)
+
+
+
+## Support
+
+[Phoca Forum](https://www.phoca.cz/forum)
+
+:bell: [Phoca Forum RSS](https://www.phoca.cz/forum/app.php/feed)
+
+
+
+## News
+
+[Phoca News](https://www.phoca.cz/news)
+
+:bell: [Phoca News RSS](https://www.phoca.cz/news?format=feed&type=rss)
+
+:bell: [Phoca Latest Releases RSS](https://www.phoca.cz/download/feed/111?format=feed&type=rss)
+
+
+
+## Demo
+
+[Joomla! 1.5 Demo](https://www.phoca.cz/demo/)
+
+
+
+## Version
+
+3.1.7
+
+
+
+## License
+
+GNU/GPL
+
+
+
+This project is open source project - feel free to contribute! Thank you.
