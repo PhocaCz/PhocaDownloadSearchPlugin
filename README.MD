@@ -16,6 +16,8 @@ Phoca Download Search Plugin is a Joomla! plugin which allows you to search for 
 
 [Phoca Download Search Plugin](https://www.phoca.cz/phoca-download-search-plugin)
 
+[Phoca Download Info Page](https://www.phoca.cz/project/phocadownload-joomla-download)
+
 
 
 ## Documentation
