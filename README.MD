@@ -54,7 +54,7 @@ Phoca Download Search Plugin is a Joomla! plugin which allows you to search for 
 
 ## Version
 
-3.2.0
+3.2.1
 
 
 
